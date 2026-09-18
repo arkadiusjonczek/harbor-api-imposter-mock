@@ -1,0 +1,26 @@
+plugin: openapi
+specFile: swagger.yaml
+
+# Standard-Verhalten für alle Endpunkte, die nicht gematcht werden:
+# Imposter generiert automatisch gültige Werte aus dem Swagger-File.
+
+# Hier fügen Sie Ihre Bedingungen hinzu:
+resources:
+  # Bedingung 1: Wenn ein bestimmter Query-Parameter übergeben wird
+  - path: "/api/v2.0/projects"
+    method: GET
+    queryParams:
+      name: "custom-test"
+    response:
+      statusCode: 200
+      staticFile: "mein-projekt.json"
+
+  # Bedingung 2: Fehlerfall simulieren, wenn kein Auth-Header gesendet wird
+  - path: "/api/v2.0/projects"
+    method: POST
+    headers:
+      Authorization: null   # Matcht, wenn der Header fehlt oder leer ist
+    response:
+      statusCode: 401
+      contentType: application/json
+      body: '{"errors":[{"code":"UNAUTHORIZED","message":"Authorization token required"}]}'
