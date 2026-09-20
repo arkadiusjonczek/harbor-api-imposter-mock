@@ -1,0 +1,17 @@
+plugin: openapi
+specFile: swagger.yaml
+
+resources:
+  - path: "/api/v2.0/projects/123"
+    method: GET
+    response:
+      statusCode: 200
+      staticFile: "mein-projekt.json"
+
+  - path: "/api/v2.0/projects/123"
+    method: DELETE
+    response:
+      statusCode: 403
+      headers:
+        Content-Type: application/json
+      content: '{"errors":[{"code":"FORBIDDEN","message":"forbidden"}]}'
